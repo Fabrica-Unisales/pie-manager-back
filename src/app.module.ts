@@ -5,6 +5,7 @@ import { databaseConfig } from './config/database.config';
 import { ProfileModule } from './profile/profile.module';
 import { PermissionModule } from './permission/permission.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
+import { ModuleModule } from './module/module.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
     UsersModule,
     ProfileModule,
     PermissionModule,
+    ModuleModule,
   ],
   controllers: [],
   providers: [],
