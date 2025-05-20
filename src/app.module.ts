@@ -7,6 +7,7 @@ import { PermissionModule } from './permission/permission.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ModuleModule } from './module/module.module';
 import { AuthModule } from './auth/auth.module';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     ProfileModule,
     PermissionModule,
+    GroupsModule,
     ModuleModule,
     AuthModule,
   ],

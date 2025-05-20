@@ -1,0 +1,21 @@
+import { Table, Model, Column, ForeignKey, BelongsTo, HasMany } from 'sequelize-typescript';
+
+import { UserGroup } from './user-group.entity';
+
+@Table({ tableName: 'groups' })
+export class Group extends Model {
+  @Column({ primaryKey: true, autoIncrement: true })
+  id: number;
+
+  @Column
+  tema: string;
+
+  @Column({ allowNull: true })
+  descricao: string;
+
+  @Column({ defaultValue: true })
+  isActive: boolean;
+
+  @HasMany(() => UserGroup)
+  userGroups: UserGroup[];
+}
