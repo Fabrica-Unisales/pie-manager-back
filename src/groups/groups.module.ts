@@ -8,9 +8,7 @@ import { UserGroup } from './entities/user-group.entity';
 import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [
-    SequelizeModule.forFeature([Group, UserGroup, User]),
-  ],
+  imports: [SequelizeModule.forFeature([Group, UserGroup, User])],
   controllers: [GroupsController],
   providers: [GroupsService],
   exports: [SequelizeModule],

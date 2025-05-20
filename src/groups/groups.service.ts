@@ -11,18 +11,24 @@ export class GroupsService {
   constructor(
     @InjectModel(Group)
     private groupModel: typeof Group,
-    
+
     @InjectModel(UserGroup)
     private userGroupModel: typeof UserGroup,
   ) {}
 
   async create(createGroupDto: CreateGroupDto): Promise<Group> {
-    const group = await this.groupModel.create(createGroupDto);
+    const newGroup = {
+      tema: createGroupDto.tema,
+      descricao: createGroupDto.descricao,
+    };
+
+    const group = await this.groupModel.create(newGroup);
+
     await this.userGroupModel.bulkCreate(
-      createGroupDto.alunoIds.map(userId => ({
+      createGroupDto.alunoIds.map((userId) => ({
         userId,
         groupId: group.id,
-      }))
+      })),
     );
     return group;
   }
@@ -40,14 +46,14 @@ export class GroupsService {
   async update(id: number, updateGroupDto: UpdateGroupDto): Promise<Group> {
     const group = await this.findOne(id);
     await group.update(updateGroupDto);
-    
+
     if (updateGroupDto.alunoIds) {
       await this.userGroupModel.destroy({ where: { groupId: id } });
       await this.userGroupModel.bulkCreate(
-        updateGroupDto.alunoIds.map(userId => ({ userId, groupId: id }))
+        updateGroupDto.alunoIds.map((userId) => ({ userId, groupId: id })),
       );
     }
-    
+
     return group.reload();
   }
 
