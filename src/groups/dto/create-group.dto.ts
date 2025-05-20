@@ -2,10 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateGroupDto {
-  @ApiProperty({ description: 'ID da Turma', example: 1 })
-  @IsNumber()
-  @IsNotEmpty()
-  turmaId: number;
 
   @ApiProperty({ description: 'IDs dos Alunos', example: [1, 2, 3] })
   @IsArray()
