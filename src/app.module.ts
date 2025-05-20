@@ -8,6 +8,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ModuleModule } from './module/module.module';
 import { AuthModule } from './auth/auth.module';
 import { TurmaModule } from './turma/turma.module';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { TurmaModule } from './turma/turma.module';
     UsersModule,
     ProfileModule,
     PermissionModule,
+    GroupsModule,
     ModuleModule,
     AuthModule,
     TurmaModule,
