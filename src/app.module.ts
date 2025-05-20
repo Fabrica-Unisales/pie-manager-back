@@ -6,7 +6,12 @@ import { ProfileModule } from './profile/profile.module';
 import { PermissionModule } from './permission/permission.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ModuleModule } from './module/module.module';
+<<<<<<< HEAD
 import { AuthModule } from './auth/auth.module';
+=======
+import { GroupsModule } from './groups/groups.module';
+import { TurmaModule } from './turma/turma.module';
+>>>>>>> 9c48d520b5802ae2b954b83ebbd74bf3589d0340
 
 @Module({
   imports: [
@@ -14,6 +19,8 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     ProfileModule,
     PermissionModule,
+    GroupsModule,
+    TurmaModule,
     ModuleModule,
     AuthModule,
   ],
