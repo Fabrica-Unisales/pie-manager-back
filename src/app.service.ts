@@ -3,5 +3,7 @@ import { Sequelize } from 'sequelize-typescript';
 
 @Injectable()
 export class AppService {
-  constructor(private sequelize: Sequelize) {}
+  constructor(private sequelize: Sequelize) {
+    sequelize.sync();
+  }
 }
