@@ -7,6 +7,7 @@ import { PermissionModule } from './permission/permission.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ModuleModule } from './module/module.module';
 import { AuthModule } from './auth/auth.module';
+import { ProjectsModule } from './projects/projects.module';
 import { TurmaModule } from './turma/turma.module';
 import { GroupsModule } from './groups/groups.module';
 
@@ -19,6 +20,7 @@ import { GroupsModule } from './groups/groups.module';
     GroupsModule,
     ModuleModule,
     AuthModule,
+    ProjectsModule,
     TurmaModule,
   ],
   controllers: [],
