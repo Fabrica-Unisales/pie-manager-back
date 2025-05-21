@@ -1,12 +1,15 @@
-import { Model } from "sequelize";
-import { AllowNull, AutoIncrement, Column, PrimaryKey, Table } from "sequelize-typescript";
-import { CreateProjectDto } from "../dto/create-project.dto";
+import {
+    AllowNull,
+    AutoIncrement,
+    Column,
+    PrimaryKey,
+    Table, Model
+} from 'sequelize-typescript';
 
-@Table({tableName: 'projects'})
-export class Project extends Model<Project, CreateProjectDto>{
-
+@Table({ tableName: 'projects' })
+export class Project extends Model {
     @AutoIncrement
-    @PrimaryKey 
+    @PrimaryKey
     @Column
     id: number;
 

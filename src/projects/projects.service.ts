@@ -9,10 +9,14 @@ export class ProjectsService {
   constructor(
     @InjectModel(Project)
     private projectModel: typeof Project,
-  ){}
+  ) {}
 
   async create(createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectModel.create(createProjectDto);
+    const newProject = {
+      ...createProjectDto,
+    };
+
+    return this.projectModel.create(newProject);
   }
 
   async findAll(): Promise<Project[]> {
@@ -20,14 +24,17 @@ export class ProjectsService {
   }
 
   async findOne(id: number): Promise<Project | null> {
-    return this.projectModel.findByPk();
+    return this.projectModel.findByPk(id);
   }
 
-  async update(id: number, updateProjectDto: UpdateProjectDto): Promise<Project | null> {
+  async update(
+    id: number,
+    updateProjectDto: UpdateProjectDto,
+  ): Promise<Project | null> {
     const project = await this.findOne(id);
     if (!project) return null;
 
-    await project.update(updateProjectDto);
+    await project.update({ ...updateProjectDto });
     return project;
   }
 
