@@ -1,4 +1,4 @@
-import { Table, Model, Column, ForeignKey } from 'sequelize-typescript';
+import { Table, Model, Column, ForeignKey, BelongsTo } from 'sequelize-typescript';
 import { User } from '../../users/entities/user.entity';
 import { Group } from './group.entity';
 
@@ -11,4 +11,10 @@ export class UserGroup extends Model {
   @ForeignKey(() => Group)
   @Column
   groupId: number;
+
+  @BelongsTo(() => User)
+  user: User;
+
+  @BelongsTo(() => Group)
+  group: Group;
 }
