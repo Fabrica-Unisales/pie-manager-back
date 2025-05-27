@@ -43,9 +43,11 @@ describe('ProjectsService', () => {
   it('Criar projeto (create)', async () =>{
     const createDto = {
       nome: 'PetLove',
-      curso: 'Engenharia de software',
-      grupo: 2,
-      periodo: 3,
+      cursoId: 2,
+      grupoId: 2,
+      periodo: '3',
+      turmaId: 1,
+      usuarioId: 1,
     };
 
     const expected = {id: 1,  ...createDto};

@@ -7,15 +7,23 @@ export class CreateProjectDto {
     @IsString()
     nome: string;
 
-    @ApiProperty({example: 'Engenharia de software'})
-    @IsString()
-    curso: string;
+    @ApiProperty({example: '2'})
+    @IsNumber()
+    cursoId: number;
 
     @ApiProperty({example: '1'})
     @IsNumber()
-    grupo: number;
+    grupoId: number;
+
+    @ApiProperty({example: '1'})
+    @IsNumber()
+    turmaId: number;
+
+    @ApiProperty({example: '1'})
+    @IsNumber()
+    usuarioId: number;
 
     @ApiProperty({example: '6'})
-    @IsNumber()
-    periodo: number;
+    @IsString()
+    periodo: string;
 }
