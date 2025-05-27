@@ -10,10 +10,11 @@ export class TurmaService {
   constructor(
     @InjectModel(Turma)
     private turmaModel: typeof Turma,
-  ) {}
+  ) { }
 
   async create(createTurmaDto: CreateTurmaDto): Promise<Turma> {
-    return this.turmaModel.create(createTurmaDto as CreationAttributes<Turma>);
+
+    return this.turmaModel.create({ nome: createTurmaDto.periodonome, periodo: createTurmaDto.periodo, curso: createTurmaDto.curso } as CreationAttributes<Turma>);
   }
 
   async findAll(): Promise<Turma[]> {
