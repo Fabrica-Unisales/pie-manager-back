@@ -3,8 +3,20 @@ import {
     AutoIncrement,
     Column,
     PrimaryKey,
-    Table, Model
+    Table, Model,
+    ForeignKey,
+    BelongsTo
 } from 'sequelize-typescript';
+import { Group } from 'src/groups/entities/group.entity';
+//import { Turma } from 'src/turma/entities/turma.entity';
+import { User } from 'src/users/entities/user.entity';
+
+export enum Turno {
+    Turno1 = 'Turno 1',
+    Turno2 = 'Turno 2',
+    Turno3 = 'Turno 3'
+
+}
 
 @Table({ tableName: 'projects' })
 export class Project extends Model {
@@ -17,15 +29,41 @@ export class Project extends Model {
     @Column
     nome: string;
 
-    @AllowNull(false)
+    //@ForeignKey(() => Course)
     @Column
-    curso: string;
+    cursoId: number;
 
-    @AllowNull(false)
+    @ForeignKey(() => Group)
     @Column
-    grupo: number;
+    grupoId: number;
 
-    @AllowNull(false)
+    //@ForeignKey(() => Turma)
     @Column
-    periodo: number;
+    turmaId: number;
+
+    @ForeignKey(() => User)
+    @Column
+    usuarioId: number;
+
+    //@ForeignKey(() => Turma)
+    @Column
+    periodo: string;
+
+    @Column
+    turno: Turno;
+
+    @Column
+    baia: number;
+
+    //@BelongsTo(() => Course)
+    //course: Course;
+
+    @BelongsTo(() => Group)
+    group: Group;
+
+    @BelongsTo(() => User)
+    user: User;
+
+    //@BelongsTo(() => Turma)
+    //turma: Turma;
 }

@@ -3,6 +3,8 @@ import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
 import { InjectModel } from '@nestjs/sequelize';
 import { Project } from './entities/project.entity';
+import { Group } from 'src/groups/entities/group.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -20,7 +22,7 @@ export class ProjectsService {
   }
 
   async findAll(): Promise<Project[]> {
-    return this.projectModel.findAll();
+    return this.projectModel.findAll({include:[User,Group]});
   }
 
   async findOne(id: number): Promise<Project | null> {
