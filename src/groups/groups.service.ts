@@ -16,13 +16,13 @@ export class GroupsService {
     private userGroupModel: typeof UserGroup,
   ) {}
 
-  async create(createGroupDto: CreateGroupDto): Promise<Group> {
-    const newGroup = {
-      tema: createGroupDto.tema,
-      descricao: createGroupDto.descricao,
-    };
-
-    const group = await this.groupModel.create(newGroup);
+async create(createGroupDto: CreateGroupDto): Promise<Group> {
+  const group = await this.groupModel.create({
+    turmaId: createGroupDto.turmaId,
+    tema: createGroupDto.tema,
+    descricao: createGroupDto.descricao,
+    isActive: createGroupDto.isActive ?? true
+  });
 
     await this.userGroupModel.bulkCreate(
       createGroupDto.alunoIds.map((userId) => ({
