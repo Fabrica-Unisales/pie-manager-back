@@ -1,46 +1,41 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { Turma } from './entities/turma.entity';
 import { CreateTurmaDto } from './dto/create-turma.dto';
 import { UpdateTurmaDto } from './dto/update-turma.dto';
-import { Turma } from './entities/turma.entity';
+import { CreationAttributes } from 'sequelize';
 
 @Injectable()
 export class TurmaService {
-  private turmas: Turma[] = [];
-  private id = 1;
+  constructor(
+    @InjectModel(Turma)
+    private turmaModel: typeof Turma,
+  ) {}
 
-  create(createTurmaDto: CreateTurmaDto): Turma {
-    const novaTurma: Turma = {
-      id: this.id++,
-      ...createTurmaDto,
-    };
-    this.turmas.push(novaTurma);
-    return novaTurma;
+  async create(createTurmaDto: CreateTurmaDto): Promise<Turma> {
+    return this.turmaModel.create(createTurmaDto as CreationAttributes<Turma>);
   }
 
-  findAll(): Turma[] {
-    return this.turmas;
+  async findAll(): Promise<Turma[]> {
+    return this.turmaModel.findAll();
   }
 
-  findOne(id: number): Turma | undefined {
-  return this.turmas.find(turma => turma.id === id);
-}
-
-  update(id: number, updateTurmaDto: UpdateTurmaDto): Turma {
-  const turma = this.findOne(id);
-  if (!turma) {
-    throw new Error(`Turma com ID ${id} não encontrada.`);
-  }
-  Object.assign(turma, updateTurmaDto);
-  return turma;
-}
-
-
-  remove(id: number): { message: string } {
-    const index = this.turmas.findIndex(turma => turma.id === id);
-    if (index !== -1) {
-      this.turmas.splice(index, 1);
-      return { message: `Turma com ID ${id} removida.` };
+  async findOne(id: number): Promise<Turma> {
+    const turma = await this.turmaModel.findByPk(id);
+    if (!turma) {
+      throw new NotFoundException(`Turma com ID ${id} não encontrada.`);
     }
-    return { message: `Turma com ID ${id} não encontrada.` };
+    return turma;
+  }
+
+  async update(id: number, updateTurmaDto: UpdateTurmaDto): Promise<Turma> {
+    const turma = await this.findOne(id);
+    return turma.update(updateTurmaDto);
+  }
+
+  async remove(id: number): Promise<{ message: string }> {
+    const turma = await this.findOne(id);
+    await turma.destroy();
+    return { message: `Turma com ID ${id} removida.` };
   }
 }

@@ -1,0 +1,123 @@
+openapi: 3.0.0
+info:
+  title: PIE Manager API
+  version: 1.0.0
+  description: API para gerenciamento de turmas
+
+servers:
+  - url: http://localhost:3000
+    description: Ambiente local
+
+paths:
+  /turmas:
+    get:
+      summary: Lista todas as turmas
+      responses:
+        '200':
+          description: Lista de turmas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Turma'
+    post:
+      summary: Cria uma nova turma
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTurmaDto'
+      responses:
+        '201':
+          description: Turma criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turma'
+
+  /turmas/{id}:
+    get:
+      summary: Busca uma turma por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Turma encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Turma'
+        '404':
+          description: Turma não encontrada
+    put:
+      summary: Atualiza uma turma
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTurmaDto'
+      responses:
+        '200':
+          description: Turma atualizada
+    delete:
+      summary: Remove uma turma
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Turma removida com sucesso
+
+components:
+  schemas:
+    Turma:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        periodo:
+          type: string
+        curso:
+          type: string
+
+    CreateTurmaDto:
+      type: object
+      required:
+        - nome
+        - periodo
+        - curso
+      properties:
+        nome:
+          type: string
+        periodo:
+          type: string
+        curso:
+          type: string
+
+    UpdateTurmaDto:
+      type: object
+      properties:
+        nome:
+          type: string
+        periodo:
+          type: string
+        curso:
+          type: string
