@@ -10,6 +10,8 @@ import { AuthModule } from './auth/auth.module';
 import { ProjectsModule } from './projects/projects.module';
 import { TurmaModule } from './turma/turma.module';
 import { GroupsModule } from './groups/groups.module';
+import { CursosModule } from './cursos/cursos.module';
+
 
 @Module({
   imports: [
@@ -22,6 +24,7 @@ import { GroupsModule } from './groups/groups.module';
     AuthModule,
     ProjectsModule,
     TurmaModule,
+    CursosModule,
   ],
   controllers: [],
   providers: [],
