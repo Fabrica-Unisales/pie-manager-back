@@ -19,4 +19,5 @@ export class UserModel extends Model {
 
   @Column({ defaultValue: true })
   isActive: boolean;
+  
 }

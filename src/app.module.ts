@@ -7,6 +7,11 @@ import { PermissionModule } from './permission/permission.module';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ModuleModule } from './module/module.module';
 import { AuthModule } from './auth/auth.module';
+import { ProjectsModule } from './projects/projects.module';
+import { TurmaModule } from './turma/turma.module';
+import { GroupsModule } from './groups/groups.module';
+import { CursosModule } from './cursos/cursos.module';
+
 
 @Module({
   imports: [
@@ -14,8 +19,12 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     ProfileModule,
     PermissionModule,
+    GroupsModule,
     ModuleModule,
     AuthModule,
+    ProjectsModule,
+    TurmaModule,
+    CursosModule,
   ],
   controllers: [],
   providers: [],
