@@ -14,6 +14,11 @@ export class CreateGroupDto {
   @IsNumber({}, { each: true })
   alunoIds: number[];
 
+  @ApiProperty({ description: 'ID da Turma', example: 1 })
+  @IsNumber()
+  @IsNotEmpty()
+  turmaId: number;
+
   @ApiProperty({ description: 'Tema do Grupo', example: 'IA na Educação' })
   @IsString()
   @IsNotEmpty()
