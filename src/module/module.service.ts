@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/sequelize';
+import { ModuleModel } from './module.model';
 import { CreateModuleDto } from './dto/create-module.dto';
 import { UpdateModuleDto } from './dto/update-module.dto';
 
 @Injectable()
 export class ModuleService {
-  create(createModuleDto: CreateModuleDto) {
-    return 'This action adds a new module';
+  constructor(
+    @InjectModel(ModuleModel)
+    private readonly moduleModel: typeof ModuleModel,
+  ) {}
+
+  async create(createModuleDto: CreateModuleDto): Promise<ModuleModel> {
+    return await this.moduleModel.create(createModuleDto);
   }
 
-  findAll() {
-    return `This action returns all module`;
+  async findAll(): Promise<ModuleModel[]> {
+    return await this.moduleModel.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} module`;
+  async findOne(id: number): Promise<ModuleModel> {
+    const module = await this.moduleModel.findByPk(id);
+    if (!module) {
+      throw new NotFoundException(`Module with id ${id} not found`);
+    }
+    return module;
   }
 
-  update(id: number, updateModuleDto: UpdateModuleDto) {
-    return `This action updates a #${id} module`;
+  async update(id: number, updateModuleDto: UpdateModuleDto): Promise<ModuleModel> {
+    const module = await this.findOne(id); // Verifica se existe
+    await module.update(updateModuleDto);
+    return module;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} module`;
+  async remove(id: number): Promise<void> {
+    const module = await this.findOne(id); // Verifica se existe
+    await module.destroy();
   }
 }
