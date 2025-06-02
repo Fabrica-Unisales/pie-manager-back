@@ -12,7 +12,7 @@ export class ModuleService {
   ) {}
 
   async create(createModuleDto: CreateModuleDto): Promise<ModuleModel> {
-    return await this.moduleModel.create(createModuleDto);
+    return await this.moduleModel.create(createModuleDto as any);
   }
 
   async findAll(): Promise<ModuleModel[]> {
