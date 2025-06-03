@@ -32,4 +32,39 @@ describe('GroupsService', () => {
     });
     expect(mockGroupModel.create).toHaveBeenCalledWith(dto);
   });
+
+  describe('addAluno', () => {
+    it('should add aluno to group', async () => {
+      mockGroupModel.findByPk.mockResolvedValue({ id: 1, turmaId: 1 });
+      mockUserGroupModel.create.mockResolvedValue({ groupId: 1, userId: 1 });
+      
+      await service.addAluno(1, 1);
+      
+      expect(mockUserGroupModel.create).toHaveBeenCalledWith({
+        groupId: 1,
+        userId: 1
+      });
+    });
+  });
+
+  describe('removeAluno', () => {
+  it('should remove aluno from group', async () => {
+    mockUserGroupModel.findOne.mockResolvedValue({
+      destroy: jest.fn().mockResolvedValue(true)
+    });
+
+    const result = await service.removeAluno(1, 1);
+    
+    expect(result).toEqual({
+      message: 'Aluno 1 removido do grupo 1 com sucesso'
+    });
+  });
+
+  it('should throw if aluno not in group', async () => {
+    mockUserGroupModel.findOne.mockResolvedValue(null);
+
+    await expect(service.removeAluno(1, 999))
+      .rejects
+      .toThrow(BadRequestException);
+  });
 });
