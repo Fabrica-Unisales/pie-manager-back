@@ -7,9 +7,10 @@ import {
     ForeignKey,
     BelongsTo
 } from 'sequelize-typescript';
-import { Group } from 'src/groups/entities/group.entity';
-//import { Turma } from 'src/turma/entities/turma.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Curso } from '../../cursos/entities/curso.entity';
+import { Group } from '../../groups/entities/group.entity';
+import { Turma } from '../../turma/entities/turma.entity';
+import { User } from '../../users/entities/user.entity';
 
 export enum Turno {
     Turno1 = 'Turno 1',
@@ -29,15 +30,15 @@ export class Project extends Model {
     @Column
     nome: string;
 
-    //@ForeignKey(() => Course)
+    @ForeignKey(() => Curso)
     @Column
-    cursoId: number;
+    nomeCurso: number;
 
     @ForeignKey(() => Group)
     @Column
     grupoId: number;
 
-    //@ForeignKey(() => Turma)
+    @ForeignKey(() => Turma)
     @Column
     turmaId: number;
 
@@ -45,7 +46,7 @@ export class Project extends Model {
     @Column
     usuarioId: number;
 
-    //@ForeignKey(() => Turma)
+    @ForeignKey(() => Turma)
     @Column
     periodo: string;
 
@@ -55,8 +56,8 @@ export class Project extends Model {
     @Column
     baia: number;
 
-    //@BelongsTo(() => Course)
-    //course: Course;
+    @BelongsTo(() => Curso)
+    curso: Curso;
 
     @BelongsTo(() => Group)
     group: Group;
@@ -64,6 +65,6 @@ export class Project extends Model {
     @BelongsTo(() => User)
     user: User;
 
-    //@BelongsTo(() => Turma)
-    //turma: Turma;
+    @BelongsTo(() => Turma)
+    turma: Turma;
 }
