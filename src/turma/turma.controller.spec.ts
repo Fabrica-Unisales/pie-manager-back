@@ -35,7 +35,7 @@ describe('TurmaController', () => {
 
   it('deve criar uma turma', async () => {
     const dto: CreateTurmaDto = {
-      nome: 'Turma X',
+      periodonome: 'Turma X',
       periodo: '2025.1',
       curso: 'Engenharia',
     };
@@ -56,7 +56,7 @@ describe('TurmaController', () => {
 
   it('deve atualizar uma turma', async () => {
     const dto: UpdateTurmaDto = {
-      nome: 'Turma Atualizada',
+      periodonome: 'Turma Atualizada',
     };
 
     const result = await controller.update('1', dto);
