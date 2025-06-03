@@ -1,4 +1,5 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import { Table, Column, Model, DataType, HasMany } from 'sequelize-typescript';
+import { User } from '../../users/entities/user.entity';
 
 @Table({ tableName: 'turmas', timestamps: false }) 
 export class Turma extends Model<Turma> {
@@ -26,4 +27,7 @@ export class Turma extends Model<Turma> {
     allowNull: false,
   })
   curso: string;
+
+  @HasMany(() => User)
+  alunos: User[];
 }
