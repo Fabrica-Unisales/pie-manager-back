@@ -15,16 +15,16 @@ import { CursosModule } from './cursos/cursos.module';
 
 @Module({
   imports: [
-    SequelizeModule.forRoot(databaseConfig),
+    AuthModule,
     UsersModule,
     ProfileModule,
     PermissionModule,
     GroupsModule,
     ModuleModule,
-    AuthModule,
     ProjectsModule,
     TurmaModule,
     CursosModule,
+    SequelizeModule.forRoot(databaseConfig),
   ],
   controllers: [],
   providers: [],
