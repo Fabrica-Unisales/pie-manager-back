@@ -1,10 +1,22 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Group } from './entities/group.entity';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { UserGroup } from './entities/user-group.entity';
 import { User } from '../users/entities/user.entity';
+
+type GroupWithAlunoIds = {
+  id: number;
+  tema: string;
+  descricao: string;
+  isActive: boolean;
+  alunoIds: number[];
+};
 
 @Injectable()
 export class GroupsService {
@@ -16,7 +28,11 @@ export class GroupsService {
     private userGroupModel: typeof UserGroup,
   ) {}
 
-  async create(createGroupDto: CreateGroupDto): Promise<Group> {
+  async create(createGroupDto: CreateGroupDto): Promise<GroupWithAlunoIds> {
+    if (!createGroupDto.alunoIds || createGroupDto.alunoIds.length === 0) {
+      throw new BadRequestException('alunoIds cannot be empty');
+    }
+
     const newGroup = {
       tema: createGroupDto.tema,
       descricao: createGroupDto.descricao,
@@ -30,7 +46,14 @@ export class GroupsService {
         groupId: group.id,
       })),
     );
-    return group;
+
+    return {
+      id: group.id,
+      tema: group.tema,
+      descricao: group.descricao,
+      isActive: group.isActive,
+      alunoIds: createGroupDto.alunoIds,
+    };
   }
 
   async findAll(): Promise<Group[]> {
@@ -50,7 +73,10 @@ export class GroupsService {
     if (updateGroupDto.alunoIds) {
       await this.userGroupModel.destroy({ where: { groupId: id } });
       await this.userGroupModel.bulkCreate(
-        updateGroupDto.alunoIds.map((userId) => ({ userId, groupId: id })),
+        updateGroupDto.alunoIds.map((userId) => ({
+          userId,
+          groupId: id,
+        })),
       );
     }
 
