@@ -15,9 +15,10 @@ export class UsersController {
 
   @Post()
   @Public()
-  @ApiOperation({ summary: 'Create a new user' })
-  @ApiResponse({ status: 201, description: 'User successfully created' })
+  @ApiOperation({ summary: 'Create a new student user' })
+  @ApiResponse({ status: 201, description: 'Student successfully created' })
   create(@Body() createUserDto: CreateUserDto) {
+    createUserDto.role = 'aluno';
     return this.usersService.create(createUserDto);
   }
 
