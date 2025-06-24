@@ -24,9 +24,9 @@ Closes #123
 
 ## 📎 Screenshots (opcional)
 <!-- Adicione imagens ou gifs, se forem úteis para entender a mudança -->
-| Antes | Depois |
-|-------|--------|
-| ![antes](link) | ![depois](link) |
+
+![alt text](<Captura de tela 2025-06-24 105346.png>)
+![alt text](<Captura de tela 2025-06-24 105505.png>)
 
 ## ⚠️ Notas adicionais
 <!-- Qualquer detalhe adicional que seja relevante para o revisor -->

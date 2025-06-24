@@ -144,7 +144,7 @@ describe('GroupsService', () => {
       
       expect(result).toEqual(expectedGroup);
       expect(mockGroupModel.findByPk).toHaveBeenCalledWith(1, {
-        include: [{ model: expect.anything() }], // User
+        include: [User],
       });
     });
 
@@ -157,19 +157,22 @@ describe('GroupsService', () => {
 
   describe('update', () => {
     it('should update group and its alunos', async () => {
-      const group = { id: 1, update: jest.fn().mockResolvedValue(true) };
-      const updateDto = {
-        tema: 'IA Atualizado',
-        alunoIds: [3, 4],
+      const group = { 
+        id: 1, 
+        update: jest.fn().mockResolvedValue(true),
+        reload: jest.fn().mockResolvedValue({ id: 1, tema: 'IA Atualizado' }) // Adicione isso
       };
 
       mockGroupModel.findByPk.mockResolvedValue(group);
       mockUserGroupModel.destroy.mockResolvedValue(1);
       mockUserGroupModel.bulkCreate.mockResolvedValue([{}, {}]);
 
-      const result = await service.update(1, updateDto);
+      const updateData = { tema: 'IA Atualizado', alunoIds: [3, 4] };
+      await service.update(1, updateData);
       
-      expect(group.update).toHaveBeenCalledWith(updateDto);
+      expect(group.update).toHaveBeenCalledWith(updateData);
+
+      expect(group.reload).toHaveBeenCalled();
       expect(mockUserGroupModel.destroy).toHaveBeenCalledWith({
         where: { groupId: 1 },
       });
@@ -180,14 +183,23 @@ describe('GroupsService', () => {
     });
 
     it('should update without changing alunos if alunoIds not provided', async () => {
-      const group = { id: 1, update: jest.fn().mockResolvedValue(true) };
+      const group = { 
+        id: 1, 
+        update: jest.fn().mockResolvedValue(true),
+        reload: jest.fn().mockResolvedValue({ id: 1, tema: 'IA Atualizado' }) // Adicionado reload
+      };
       const updateDto = { tema: 'IA Atualizado' };
+
+      mockUserGroupModel.destroy.mockClear();
+      mockUserGroupModel.bulkCreate.mockClear();
 
       mockGroupModel.findByPk.mockResolvedValue(group);
 
       await service.update(1, updateDto);
       
       expect(group.update).toHaveBeenCalledWith(updateDto);
+      expect(group.reload).toHaveBeenCalled();
+      
       expect(mockUserGroupModel.destroy).not.toHaveBeenCalled();
       expect(mockUserGroupModel.bulkCreate).not.toHaveBeenCalled();
     });
@@ -232,6 +244,7 @@ describe('GroupsService', () => {
 
       await service.addAluno(1, 2);
       
+      expect(mockUser.findByPk).toHaveBeenCalledWith(2);
       expect(mockUserGroupModel.create).toHaveBeenCalledWith({
         groupId: 1,
         userId: 2,
