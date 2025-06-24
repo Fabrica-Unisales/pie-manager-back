@@ -4,19 +4,22 @@ import { Curso } from './entities/curso.entity';
 import { CreateCursoDto } from './dto/create-curso.dto';
 import { UpdateCursoDto } from './dto/update-curso.dto';
 
+
 @Injectable()
 export class CursosService {
   constructor(
     @InjectModel(Curso)
     private cursoModel: typeof Curso,
-  ) {}
+  ) { }
 
- create(createCursoDto: CreateCursoDto) {
-  return this.cursoModel.create({
-    nome: createCursoDto.nome,
-    descricao: createCursoDto.descricao,
-  });
-}
+  create(createCursoDto: CreateCursoDto, userId: number) {
+    return this.cursoModel.create({
+      nome: createCursoDto.nome,
+      descricao: createCursoDto.descricao,
+      criadoPorId: userId, 
+    });
+  }
+
 
   findAll() {
     return this.cursoModel.findAll();
@@ -26,10 +29,13 @@ export class CursosService {
     return this.cursoModel.findByPk(id);
   }
 
-  async update(id: number, updateCursoDto: UpdateCursoDto) {
+  async update(id: number, updateCursoDto: UpdateCursoDto, userId: number) {
     const curso = await this.cursoModel.findByPk(id);
     if (curso) {
-      return curso.update(updateCursoDto);
+      return curso.update({
+        ...updateCursoDto,
+        atualizadoPorId: userId,
+      });
     }
     return null;
   }
