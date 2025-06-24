@@ -19,6 +19,9 @@ export class GroupsService {
 
     @InjectModel(UserTurma)
     private userTurmaModel: typeof UserTurma,
+
+    @InjectModel(User)
+    private userModel: typeof User,
   ) {}
 
   
@@ -87,7 +90,7 @@ export class GroupsService {
       throw new NotFoundException('Grupo não encontrado');
     }
 
-    const user = await User.findByPk(userId);
+    const user = await this.userModel.findByPk(userId);
     if (!user) {
       throw new NotFoundException('Aluno não encontrado');
     }
